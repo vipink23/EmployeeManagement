@@ -4,7 +4,8 @@ import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import { BrowserRouter, Routes, Route } from "react-router";
 import AddEmployee from './Components/AddEmployee.jsx';
-import Modal from './Components/Modal.jsx';
+import FilterModal from './Components/FilterModal.jsx';
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -13,7 +14,8 @@ createRoot(document.getElementById('root')).render(
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/AddEmployee" element={<AddEmployee/>}/> 
-      <Route path="/AddEmp" element={<Modal/>}/> 
+      <Route path="/Employee" element={<FilterModal/>}/> 
+
 
     </Routes>
   </BrowserRouter>

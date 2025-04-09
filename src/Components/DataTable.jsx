@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
-import Modal from "./Modal";
+import Modal from "../Components/Modal.jsx";
+import FilterModal from "./FilterModal.jsx";
 
 function DataTable() {
   const navigate = useNavigate();
@@ -65,11 +66,18 @@ function DataTable() {
   // update Data
 
   const [showModal, setShowModal] = useState(false);
+  const [filterModal, setFilterModal] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
   const handleEdit = (employee) => {
     setSelectedEmployee(employee);
     setShowModal(true);
+  };
+  const HandleFilter = () => {
+    setFilterModal(true);
+  };
+  const HandleCloseFilterModal = () => {
+    setFilterModal(false);
   };
 
   const handleCloseModal = () => {
@@ -77,9 +85,13 @@ function DataTable() {
     setShowModal(false);
   };
 
-  const handleUpdate =()=>{
-    setLoad(!load)
-  }
+  const handleUpdate = () => {
+    setLoad(!load);
+  };
+
+  const handleFilterData = (val) => {
+    setData(val);
+  };
 
   return (
     <>
@@ -90,13 +102,23 @@ function DataTable() {
             <h2 className="text-xl font-semibold text-gray-700">
               Employee List
             </h2>
-            <button
-              style={{ cursor: "pointer" }}
-              className="bg-indigo-400 hover:bg-indigo-300 text-white font-bold border-b-4 border-indigo-200 hover:border-indigo-500 px-4 py-2 rounded"
-              onClick={() => navigate("/AddEmployee")}
-            >
-              ADD +
-            </button>
+
+            <div className="flex gap-2 ml-auto">
+              <button
+                style={{ cursor: "pointer" }}
+                className="bg-gray-400 hover:bg-gray-300 text-white font-bold border-b-4 border-gray-200 hover:border-gray-300 px-2 py-1 rounded"
+                onClick={HandleFilter}
+              >
+                Filter
+              </button>
+              <button
+                style={{ cursor: "pointer" }}
+                className="bg-indigo-400 hover:bg-indigo-300 text-white font-bold border-b-4 border-indigo-200 hover:border-indigo-500 px-3 py-1 rounded"
+                onClick={() => navigate("/AddEmployee")}
+              >
+                ADD +
+              </button>
+            </div>
           </div>
 
           {/* Table Section */}
@@ -111,36 +133,41 @@ function DataTable() {
                 </tr>
               </thead>
               <tbody>
-                {currentItems.map((item, index) => (
-                  <tr key={index} className="border-t">
-                    <td className="p-4">{item.empname}</td>
-                    <td className="p-4">{item.job}</td>
-                    <td className="p-4">{item.email}</td>
-                    <td className="p-4">
-                      <div className="flex" style={{ cursor: "pointer" }}>
-                        <button
-                          style={{ cursor: "pointer" }}
-                          title="Edit"
-                          type="button"
-                        //   onClick={()=> }
-                            onClick={() => handleEdit(item)}
-                          className="text-xs px-3 py-1 rounded-sm text-gray-600 hover:text-gray-800 border border-gray-300 hover:border-gray-300"
-                        >
-                          <FontAwesomeIcon icon={faPencil} />
-                        </button>
-                        <button
-                          type="button"
-                          style={{ cursor: "pointer" }}
-                          onClick={() => removeElementLocalStorage(item.id)}
-                          title="Delete"
-                          className="ml-2 text-xs px-3 py-1 rounded-sm text-red-600 hover:text-red-800 border border-gray-300 hover:border-red-300"
-                        >
-                          <FontAwesomeIcon icon={faTrash} />
-                        </button>
-                      </div>
+                {currentItems.length === 0 ? (
+                  <tr>
+                    <td className="p-4" colSpan="4">
+                      No data found
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  currentItems.map((item, index) => (
+                    <tr key={index} className="border-t">
+                      <td className="p-4">{item.empname}</td>
+                      <td className="p-4">{item.job}</td>
+                      <td className="p-4">{item.email}</td>
+                      <td className="p-4">
+                        <div className="flex" style={{ cursor: "pointer" }}>
+                          <button
+                            title="Edit"
+                            type="button"
+                            onClick={() => handleEdit(item)}
+                            className="text-xs px-3 py-1 rounded-sm text-gray-600 hover:text-gray-800 border border-gray-300 hover:border-gray-300"
+                          >
+                            <FontAwesomeIcon icon={faPencil} />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => removeElementLocalStorage(item.id)}
+                            title="Delete"
+                            className="ml-2 text-xs px-3 py-1 rounded-sm text-red-600 hover:text-red-800 border border-gray-300 hover:border-red-300"
+                          >
+                            <FontAwesomeIcon icon={faTrash} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
@@ -181,6 +208,12 @@ function DataTable() {
             employee={selectedEmployee}
             onClose={handleCloseModal}
             onUpdate={handleUpdate}
+          />
+        )}
+        {filterModal && (
+          <FilterModal
+            onClose={HandleCloseFilterModal}
+            filterData={handleFilterData}
           />
         )}
       </div>

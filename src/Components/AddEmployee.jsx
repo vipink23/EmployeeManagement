@@ -43,7 +43,7 @@ function AddEmployee() {
       <Formik
         initialValues={{ empname: "", email: "", phone: "", age: "", job: "" }}
         onSubmit={handleSubmit}
-        // validationSchema={DisplayingErrorMessagesSchema}
+        validationSchema={DisplayingErrorMessagesSchema}
       >
         {({ handleChange, values, errors }) => (
           <Form>

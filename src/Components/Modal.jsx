@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
@@ -30,6 +30,10 @@ function Modal({ employee, onClose, onUpdate }) {
       onClose();
     }, 1520);
   };
+
+   const DisplayingErrorMessagesSchema = Yup.object().shape({
+      email: Yup.string().email("Invalid Email").required("Email is Required"),
+    });
 
   return (
     <div className="fixed inset-0 z-50">
@@ -70,7 +74,7 @@ function Modal({ employee, onClose, onUpdate }) {
               job: employee ? employee.job : "",
             }}
             onSubmit={HandleSubmit}
-            // validationSchema={DisplayingErrorMessagesSchema}
+            validationSchema={DisplayingErrorMessagesSchema}
           >
             {({ handleChange, values, errors }) => (
               <Form>
@@ -88,16 +92,12 @@ function Modal({ employee, onClose, onUpdate }) {
                           <input
                             type="text"
                             name="empname"
+                            readOnly
                             value={values.empname}
                             onChange={handleChange}
                             autoComplete="given-name"
                             className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 placeholder:text-gray-400 focus:ring-indigo-600 focus:border-indigo-600"
                           />
-                          {errors.empname && (
-                            <div className="text-xs font-light text-red-500 mt-1">
-                              {errors.empname}
-                            </div>
-                          )}
                         </div>
                       </div>
 
@@ -112,6 +112,7 @@ function Modal({ employee, onClose, onUpdate }) {
                           <input
                             type="number"
                             value={values.age}
+                            readOnly
                             name="age"
                             onChange={handleChange}
                             className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 placeholder:text-gray-400 focus:ring-indigo-600 focus:border-indigo-600"
@@ -146,15 +147,11 @@ function Modal({ employee, onClose, onUpdate }) {
                           <input
                             type="number"
                             name="phone"
+                            readOnly
                             value={values.phone}
                             onChange={handleChange}
                             className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 placeholder:text-gray-400 focus:ring-indigo-600 focus:border-indigo-600"
                           />
-                          {errors.phone && (
-                            <div className="text-xs font-light text-red-500 mt-1">
-                              {errors.phone}
-                            </div>
-                          )}
                         </div>
                       </div>
 
