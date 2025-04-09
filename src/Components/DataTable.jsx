@@ -151,6 +151,7 @@ function DataTable() {
                             title="Edit"
                             type="button"
                             onClick={() => handleEdit(item)}
+                            style={{ cursor: "pointer" }}
                             className="text-xs px-3 py-1 rounded-sm text-gray-600 hover:text-gray-800 border border-gray-300 hover:border-gray-300"
                           >
                             <FontAwesomeIcon icon={faPencil} />
@@ -159,6 +160,7 @@ function DataTable() {
                             type="button"
                             onClick={() => removeElementLocalStorage(item.id)}
                             title="Delete"
+                            style={{ cursor: "pointer" }}
                             className="ml-2 text-xs px-3 py-1 rounded-sm text-red-600 hover:text-red-800 border border-gray-300 hover:border-red-300"
                           >
                             <FontAwesomeIcon icon={faTrash} />
