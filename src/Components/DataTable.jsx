@@ -22,7 +22,6 @@ function DataTable() {
   const currentItems = Array.isArray(data)
     ? data.slice(indexOfFirstItem, indexOfLastItem)
     : [];
-
   const totalPages = Array.isArray(data)
     ? Math.ceil(data.length / itemsPerPage)
     : 0;
@@ -159,12 +158,13 @@ function DataTable() {
                 value={searchquery}
                 // onChange={(e) => setSearchQuery(e.target.value)}
                 onChange={handleSerch}
-                placeholder="Search by name, job, or email..."
-                className="w-[180px] px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200"
+                placeholder="Search by name, age & Phone.."
+                className="w-[260px] px-2 py-1 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200"
               />
               <button
                 className="bg-gray-400 hover:bg-gray-300 text-white font-bold border-b-4 border-gray-200 hover:border-gray-300 px-2 py-1 rounded"
                 onClick={HandleFilter}
+                style={{ cursor: "pointer" }}
               >
                 Filter
               </button>
@@ -172,6 +172,7 @@ function DataTable() {
               <button
                 className="bg-indigo-400 hover:bg-indigo-300 text-white font-bold border-b-4 border-indigo-200 hover:border-indigo-500 px-2 py-1 rounded"
                 onClick={() => navigate("/AddEmployee")}
+                style={{ cursor: "pointer" }}
               >
                 ADD +
               </button>
