@@ -14,6 +14,7 @@ function DataTable() {
   const itemsPerPage = 5;
   useEffect(() => {
     setData(JSON.parse(localStorage.getItem("Employee")));
+    setOriginalData(JSON.parse(localStorage.getItem("Employee")));
   }, [load]);
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -93,17 +94,43 @@ function DataTable() {
     setData(val);
   };
 
+  // search Query
+
+  const [searchquery, setSearchQuery] = useState("");
+  const [originalData, setOriginalData] = useState([]);
+
+  const handleSerch = (e) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+
+    const matchedItems = originalData.filter((item) => {
+      const matchEmp = item.empname
+        ?.toUpperCase()
+        .includes(value.toUpperCase());
+      const matchAge = String(item.age).includes(value);
+      const matchPhone = String(item.phone).includes(value);
+      return matchEmp || matchAge || matchPhone;
+    });
+    setData(matchedItems);
+  };
+
   return (
     <>
       <div className="p-4">
         <div className="bg-white rounded-xl shadow-lg p-4 w-full">
           {/* Header Section */}
-          <div className="flex justify-between items-center mb-4">
+          {/* <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold text-gray-700">
               Employee List
             </h2>
 
-            <div className="flex gap-2 ml-auto">
+            <div className="flex gap-3 ml-auto">
+              <input
+                type="text"
+                placeholder="Search by name, job, or email..."
+                style={{ width: "300px" }}
+                className="px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200"
+              />
               <button
                 style={{ cursor: "pointer" }}
                 className="bg-gray-400 hover:bg-gray-300 text-white font-bold border-b-4 border-gray-200 hover:border-gray-300 px-2 py-1 rounded"
@@ -111,9 +138,39 @@ function DataTable() {
               >
                 Filter
               </button>
+
               <button
                 style={{ cursor: "pointer" }}
                 className="bg-indigo-400 hover:bg-indigo-300 text-white font-bold border-b-4 border-indigo-200 hover:border-indigo-500 px-3 py-1 rounded"
+                onClick={() => navigate("/AddEmployee")}
+              >
+                ADD +
+              </button>
+            </div>
+          </div> */}
+          <div className="flex flex-wrap justify-between items-center gap-3 mb-4">
+            <h2 className="text-xl font-semibold text-gray-700">
+              Employee List
+            </h2>
+
+            <div className="flex flex-wrap gap-3 ml-auto">
+              <input
+                type="text"
+                value={searchquery}
+                // onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={handleSerch}
+                placeholder="Search by name, job, or email..."
+                className="w-[180px] px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200"
+              />
+              <button
+                className="bg-gray-400 hover:bg-gray-300 text-white font-bold border-b-4 border-gray-200 hover:border-gray-300 px-2 py-1 rounded"
+                onClick={HandleFilter}
+              >
+                Filter
+              </button>
+
+              <button
+                className="bg-indigo-400 hover:bg-indigo-300 text-white font-bold border-b-4 border-indigo-200 hover:border-indigo-500 px-2 py-1 rounded"
                 onClick={() => navigate("/AddEmployee")}
               >
                 ADD +
